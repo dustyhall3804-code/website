@@ -1,0 +1,98 @@
+ReactDOM.render('kya dikhana ha' , 'kaha dikhana ha' , 'callback function');
+jsx = javascript ext also known as jsx expression
+javascript XML
+...............................................
+|    in ReactDOM.render(yahi jsx hota ha)     |
+...............................................
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+
+
+// we can use [] bracket to mention our tags
+ReactDOM.render(
+    [
+    <h1>Rithik CHoudhary</h1>,
+    <p>Lets begin </p>,
+    <h2>so we mention it in a div tag</h2>
+    ], 
+    
+    document.getElementById('root')
+);
+
+ReactDOM.render(
+    <React.Fragment>
+    <div>
+    <h1>Rithik CHoudhary</h1>
+    <p>Lets begin </p>
+    <h2>so we mention it in a div tag</h2>
+    </div>
+    </React.Fragment>, 
+
+    document.getElementById('root')
+);
+
+ReactDOM.render(
+    <>
+    <div>
+    <h1>Rithik CHoudhary</h1>
+    <p>Lets begin </p>
+    <h2>so we mention it in a div tag</h2>
+    </div>
+    </>, 
+
+    document.getElementById('root')
+);
+
+ReactDOM.render(
+    <>
+    <h1>Netflix Series</h1>
+    <p>Here are the list of my fav Series</p>
+
+    <ol>
+        <li>Dark</li>
+        <li>Mr. RObot</li>
+        <li>Mirzapur</li>
+        <li>Sacred games</li>
+        <li>Utopia</li>
+        <li>Scam 1992</li>
+    </ol>
+    </>,
+    document.getElementById('root')
+)
+--------------------------------------------------------------
+Now print out name in jsx
+ReactDOM.render(
+    <>
+        <h1>My name is {flname}</h1>
+        <p>My lucky number is {10 + 2}</p>    
+        <p>generate random no {Math.random()}</p>
+        </>,
+    document.getElementById('root')
+)
+--------------------------------------------------------------
+var date  = new Date().toLocaleDateString();
+var time = new Date().toLocaleTimeString();
+// var hr = x.getHours()
+// var min = x.getMinutes()
+// var sec = x.getSeconds()
+// var dat = x.getDate()
+// var mon = x.getMonth()
+// var year = x.getFullYear()
+--------------------------------------------------------------
+const name = 'Rithik'
+const img1 = "https://picsum.photos/210/310"
+const img2 = "https://picsum.photos/220/320"
+const img3 = "https://picsum.photos/250/300"
+ReactDOM.render(
+    <>
+        <h1 contentEditable='true'>Hey im {name}</h1>
+        <img src={img1} alt="Random img" />
+        <img src={img2} alt="Random img" />
+        <a href="#">
+            <img src={img3} alt="Random img" />
+        </a>
+    </>,
+    document.getElementById('root')
+)
+--------------------------------------------------------------

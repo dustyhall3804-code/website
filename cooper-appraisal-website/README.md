@@ -56,22 +56,30 @@ public/            Static assets (favicon, robots.txt)
   Progressive enhancement only — content is never hidden if JS fails or
   `prefers-reduced-motion: reduce` is set.
 
-## Placeholders to fill in before launch
+## Business info status
 
-Real contact info, credentials, and testimonials were intentionally **not** invented. Search
-the project for these tokens (mainly in `src/data/site.ts`) and replace them:
+**Confirmed and already wired in** (`src/data/site.ts`):
 
-- `{{PHONE}}` / `{{PHONE_E164}}` — business phone (display + `tel:` link format)
+- Office phone: (501) 679-6844 &middot; Cell: (501) 733-6436
+- Address: 109 North Broadview, Greenbrier, AR 72058
+- Hours: Mon–Thu 8:00 AM–5:00 PM, Fri 8:00 AM–4:00 PM, Sat–Sun Closed
+  — **note:** Friday was given as "8p–4p"; assumed a typo for 8:00 AM–4:00 PM
+  (matches the rest of the week's opening time). Confirm or correct.
+
+**Still placeholders** — real contact info, credentials, and testimonials beyond the above
+were intentionally **not** invented. Search the project for these tokens (mainly in
+`src/data/site.ts`) and replace them:
+
 - `{{EMAIL}}` — business email
-- `{{APPRAISER_NAME}}` — appraiser's full name
-- `{{LICENSE_NUMBER}}` — Arkansas appraiser license number
-- `{{STREET_ADDRESS}}` / `{{POSTAL_CODE}}` — mailing/office address
-- `{{BUSINESS_HOURS}}` — hours of operation
+- `{{APPRAISER_NAME}}` / `{{LICENSE_NUMBER}}` — public records (Arkansas / ASC national
+  registry) suggest this business is licensed to **Justin Cooper, Certified General
+  Appraiser, credential #CG-1302** — not set automatically since it wasn't confirmed
+  directly by the client. Confirm and fill in `src/data/site.ts`.
 - `{{YEARS_IN_BUSINESS}}` — years in business (hero trust line)
 - `{{TURNAROUND_TIME}}` / `{{SCHEDULING_WINDOW}}` — typical report turnaround and
   scheduling lead time
 - `{{LATITUDE}}` / `{{LONGITUDE}}` — geocoordinates for the LocalBusiness schema
-  (`src/layouts/Layout.astro`)
+  (`src/layouts/Layout.astro`) — for 109 North Broadview, Greenbrier, AR 72058
 - `{{TESTIMONIAL_QUOTE}}`, `{{CLIENT_NAME}}`, `{{CLIENT_ROLE}}` — real client testimonials
   (`src/pages/index.astro`, Testimonials section) — currently 3 placeholder cards
 - Production domain: replace `https://www.example.com` in `astro.config.mjs`,

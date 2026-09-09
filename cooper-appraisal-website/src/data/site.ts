@@ -12,22 +12,41 @@ export const SITE = {
   description:
     'Certified residential and commercial real estate appraisals and ANSI-standard house measuring services serving Greenbrier and Central Arkansas.',
 
+  // Public records (Arkansas / ASC national appraiser registry) suggest this
+  // business is licensed to Justin Cooper, Certified General Appraiser,
+  // credential #CG-1302 — NOT set below since it wasn't confirmed directly
+  // by the client. Confirm and fill in before launch.
   appraiserName: '{{APPRAISER_NAME}}',
   licenseNumber: '{{LICENSE_NUMBER}}',
   yearsInBusiness: '{{YEARS_IN_BUSINESS}}',
   turnaroundTime: '{{TURNAROUND_TIME}}',
   schedulingWindow: '{{SCHEDULING_WINDOW}}',
 
-  phone: '{{PHONE}}',
-  phoneHref: 'tel:{{PHONE_E164}}',
+  officePhone: '(501) 679-6844',
+  officePhoneHref: 'tel:+15016796844',
+  cellPhone: '(501) 733-6436',
+  cellPhoneHref: 'tel:+15017336436',
+  // Used as the primary phone site-wide (nav, hero, final CTA); the cell
+  // number is shown alongside it in the footer.
+  phone: '(501) 679-6844',
+  phoneHref: 'tel:+15016796844',
   email: '{{EMAIL}}',
   emailHref: 'mailto:{{EMAIL}}',
 
-  addressLine1: '{{STREET_ADDRESS}}',
+  addressLine1: '109 North Broadview',
   addressCity: 'Greenbrier',
   addressState: 'AR',
-  addressZip: '{{POSTAL_CODE}}',
-  hours: '{{BUSINESS_HOURS}}',
+  addressZip: '72058',
+  // NOTE: Friday was written as "8p–4p", which can't be right for a
+  // business open 8a–5p the rest of the week — assumed to mean 8:00 AM–4:00
+  // PM below. Confirm/correct if that's wrong.
+  hours: [
+    { days: 'Mon–Thu', time: '8:00 AM–5:00 PM' },
+    { days: 'Fri', time: '8:00 AM–4:00 PM' },
+    { days: 'Sat–Sun', time: 'Closed' },
+  ],
+  // schema.org LocalBusiness openingHours format, kept in sync with `hours` above.
+  openingHoursSchema: ['Mo-Th 08:00-17:00', 'Fr 08:00-16:00'],
 
   latitude: '{{LATITUDE}}',
   longitude: '{{LONGITUDE}}',

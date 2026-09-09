@@ -55,7 +55,14 @@ const year = new Date().getFullYear();
         <ul class="mt-4 space-y-3 text-sm text-cream-50/80">
           <li class="flex items-start gap-2.5">
             <Phone class="mt-0.5 h-4 w-4 shrink-0 text-brass-400" aria-hidden="true" />
-            <a href={SITE.phoneHref} class="transition-colors hover:text-brass-400">{SITE.phone}</a>
+            <span class="flex flex-col">
+              <a href={SITE.officePhoneHref} class="transition-colors hover:text-brass-400">
+                Office: {SITE.officePhone}
+              </a>
+              <a href={SITE.cellPhoneHref} class="transition-colors hover:text-brass-400">
+                Cell: {SITE.cellPhone}
+              </a>
+            </span>
           </li>
           <li class="flex items-start gap-2.5">
             <Mail class="mt-0.5 h-4 w-4 shrink-0 text-brass-400" aria-hidden="true" />
@@ -67,7 +74,15 @@ const year = new Date().getFullYear();
           </li>
           <li class="flex items-start gap-2.5">
             <Clock class="mt-0.5 h-4 w-4 shrink-0 text-brass-400" aria-hidden="true" />
-            <span>{SITE.hours}</span>
+            <span class="flex flex-col">
+              {
+                SITE.hours.map((line) => (
+                  <span>
+                    {line.days}: {line.time}
+                  </span>
+                ))
+              }
+            </span>
           </li>
         </ul>
       </div>

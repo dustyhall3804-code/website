@@ -47,6 +47,16 @@ const year = new Date().getFullYear();
               </li>
             ))
           }
+          <li>
+            <a
+              href={SITE.clientPortalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-cream-50/80 transition-colors hover:text-brass-400"
+            >
+              Client Login <span class="sr-only">(opens in a new tab)</span>
+            </a>
+          </li>
         </ul>
       </div>
 
@@ -56,10 +66,10 @@ const year = new Date().getFullYear();
           <li class="flex items-start gap-2.5">
             <Phone class="mt-0.5 h-4 w-4 shrink-0 text-brass-400" aria-hidden="true" />
             <span class="flex flex-col">
-              <a href={SITE.officePhoneHref} class="transition-colors hover:text-brass-400">
+              <a href={SITE.officePhoneHref} class="inline-block py-1 transition-colors hover:text-brass-400">
                 Office: {SITE.officePhone}
               </a>
-              <a href={SITE.cellPhoneHref} class="transition-colors hover:text-brass-400">
+              <a href={SITE.cellPhoneHref} class="inline-block py-1 transition-colors hover:text-brass-400">
                 Cell: {SITE.cellPhone}
               </a>
             </span>

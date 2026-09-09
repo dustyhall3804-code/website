@@ -3,12 +3,29 @@
 A premium marketing site for Cooper Appraisal Company (Greenbrier, AR), built with
 [Astro](https://astro.build) and [Tailwind CSS v4](https://tailwindcss.com).
 
-## Status: Phase 1 — Design system + Home page
+## Status: All six pages built
 
-This delivery includes the full design system (colors, type, spacing, components) and a
-complete Home page. The remaining pages (Commercial, Residential, House Measuring, About,
-Contact) are scaffolded in the site structure (nav/footer links) but not yet built — they'll
-follow once the Home page look is approved.
+Home, Commercial, Residential, House Measuring, About, and Contact are all built on the
+shared design system. Lighthouse (Performance/Accessibility/Best Practices/SEO) scores 100
+across all six pages; axe-core reports 0 accessibility violations on each.
+
+### Functionality carried over from the previous AppraiserXsites site
+
+At the client's request, a few functions from the existing AppraiserXsites-hosted site were
+incorporated (that site couldn't be inspected directly due to a network restriction, so this
+was scoped via a follow-up conversation rather than screenshots):
+
+- **Order an Appraisal** and **Get a Fee Quote** are both handled by the same form on
+  `/contact` (`src/components/ContactForm.astro`) via a segmented "What can we help with?"
+  control. CTAs elsewhere on the site deep-link into the right mode with
+  `/contact?type=order` or `/contact?type=quote` (also `?type=general`).
+- **Client Login** — a nav/footer link (desktop nav, mobile menu, footer, and the Contact
+  page's info card) points at the existing AppraiserXsites site
+  (`https://cooperappraisalcompanyinc2.appraiserxsites.com/Home`) so client login and
+  document delivery keep working there while this site handles marketing. A true client
+  portal (accounts, document storage) isn't something a static site can provide on its own —
+  see `clientPortalUrl` in `src/data/site.ts` if you'd rather point it at a different/more
+  direct login URL once you've confirmed one.
 
 ## Getting started
 
@@ -33,10 +50,11 @@ Then open http://localhost:4321.
 
 ```
 src/
-  components/     Button, Section, Card, Nav, Footer, PlaceholderImage
+  components/     Button, Section, Card, Nav, Footer, PageHeader, PlaceholderImage,
+                  ContactForm
   data/site.ts     Business info + placeholder tokens + nav links
   layouts/Layout.astro   Page shell: <head>, SEO meta, JSON-LD, Nav/Footer
-  pages/index.astro      Home page
+  pages/          index, commercial, residential, house-measuring, about, contact
   styles/global.css      Tailwind import + design tokens (@theme) + base styles
 public/            Static assets (favicon, robots.txt)
 ```
@@ -98,11 +116,18 @@ Also add a real 1200×630 social share image and wire it up as `og:image`/`twitt
 `src/layouts/Layout.astro` (currently omitted rather than pointing at a broken asset — see the
 TODO comment there).
 
-## Contact form (upcoming)
+## Contact form
 
-The Contact page (not yet built) will include a real client-side-validated form. Per the
-brief, submission will be wired to a placeholder handler with a `TODO` comment for
-Formspree/Netlify Forms/email — to be finalized when that page is built.
+`/contact` includes a real, client-side-validated form (`src/components/ContactForm.astro`):
+required-field + email-format validation with inline errors and focus management, a
+"What can we help with?" segmented control (Order an Appraisal / Get a Fee Quote / General
+Question, deep-linkable via `?type=`), and a success state on submit. It does **not** send
+data anywhere yet — see the `TODO` comment at the top of that component's `<script>` for how
+to wire it up to Formspree or Netlify Forms.
+
+The Contact page also embeds a live, key-less Google Maps view of 109 North Broadview,
+Greenbrier, AR 72058 (`https://www.google.com/maps?q=...&output=embed` — no API key or
+billing account required).
 
 ## SEO
 

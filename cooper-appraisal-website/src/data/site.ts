@@ -53,6 +53,12 @@ export const SITE = {
 
   serviceCounties: ['Faulkner County', 'Pulaski County', 'White County', 'Van Buren County'],
   serviceCities: ['Greenbrier', 'Conway', 'Vilonia', 'Mayflower', 'Guy', 'Quitman', 'Damascus'],
+
+  // Existing AppraiserXsites site — kept live for client login / document
+  // delivery while this site handles marketing. Points at the confirmed
+  // homepage rather than a guessed deep link; if there's a more direct
+  // "Client Login" URL on that platform, swap it in here.
+  clientPortalUrl: 'https://cooperappraisalcompanyinc2.appraiserxsites.com/Home',
 } as const;
 
 export type NavLink = { label: string; href: string };

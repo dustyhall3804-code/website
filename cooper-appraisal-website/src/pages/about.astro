@@ -1,0 +1,123 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import PlaceholderImage from '../components/PlaceholderImage.astro';
+import { ArrowRight } from '@lucide/astro';
+import { SITE } from '../data/site';
+
+const credentials = [
+  { label: 'License Number', value: SITE.licenseNumber },
+  { label: 'Credential Type', value: '{{CREDENTIAL_TYPE}}' },
+  { label: 'State', value: 'Arkansas' },
+  { label: 'USPAP Compliant', value: 'Every report' },
+  { label: 'Years in Business', value: SITE.yearsInBusiness },
+];
+---
+
+<Layout
+  title="About Us | Cooper Appraisal Company"
+  description="Meet the appraiser behind Cooper Appraisal Company and learn about our credentials, licensing, and approach to residential and commercial appraisals in central Arkansas."
+  path="/about"
+>
+  <PageHeader
+    eyebrow="About Us"
+    title="About Cooper Appraisal Company"
+    description="Local expertise, professional standards, and a straightforward approach to every appraisal."
+    imageLabel="Downtown Greenbrier, Arkansas street view"
+  />
+
+  <!-- Bio -->
+  <Section tone="cream">
+    <div class="grid grid-cols-1 items-start gap-12 lg:grid-cols-[minmax(0,22rem)_1fr]">
+      <div class="relative aspect-[4/5]" data-reveal>
+        <PlaceholderImage label={`Portrait of ${SITE.appraiserName}`} tone="navy" class="h-full w-full" />
+      </div>
+      <div data-reveal data-reveal-delay="1">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-600">Your Appraiser</p>
+        <h2 class="mt-4 font-serif text-3xl leading-tight tracking-tight text-navy-950 sm:text-4xl">
+          {SITE.appraiserName}
+        </h2>
+        <p class="mt-2 text-sm uppercase tracking-wider text-navy-700/70">{'{{APPRAISER_TITLE}}'}</p>
+        <div class="mt-6 space-y-4 leading-relaxed text-navy-700/90">
+          <p>
+            [Add 2–3 paragraphs here introducing {SITE.appraiserName} — background, years of experience,
+            professional focus, and what clients can expect when working together. Consider covering: how long
+            you've worked in central Arkansas, any specialties (e.g. estate, litigation, tax appeal work), and what
+            sets your process apart.]
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Credentials -->
+  <Section tone="creamAlt" width="narrow">
+    <div data-reveal>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-600">Credentials</p>
+      <h2 class="mt-4 font-serif text-3xl leading-tight tracking-tight text-navy-950 sm:text-4xl">
+        Credentials &amp; Licensing
+      </h2>
+      <dl class="mt-8 divide-y divide-navy-900/10 border-y border-navy-900/10">
+        {
+          credentials.map((item) => (
+            <div class="flex items-center justify-between gap-4 py-4">
+              <dt class="text-sm font-medium text-navy-700/80">{item.label}</dt>
+              <dd class="text-right font-serif text-lg text-navy-950">{item.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </Section>
+
+  <!-- Philosophy -->
+  <Section tone="cream" width="narrow">
+    <div data-reveal>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-600">Our Approach</p>
+      <h2 class="mt-4 font-serif text-3xl leading-tight tracking-tight text-navy-950 sm:text-4xl">Service Philosophy</h2>
+      <p class="mt-6 leading-relaxed text-navy-700/90">
+        Every appraisal we complete is built on the same foundation: thorough inspection, careful research, and
+        honest analysis — never a number chosen to fit what someone hopes to hear.
+      </p>
+      <p class="mt-4 leading-relaxed text-navy-700/90">
+        Whether you're a homeowner, an agent, a lender, or an attorney, you can expect a report that's accurate,
+        well-documented, and ready to stand up to scrutiny — delivered on a timeline you can plan around.
+      </p>
+    </div>
+  </Section>
+
+  <!-- Coverage -->
+  <Section tone="navy">
+    <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+      <div data-reveal>
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-400">Coverage Area</p>
+        <h2 class="mt-4 font-serif text-3xl leading-tight tracking-tight sm:text-4xl">Where We Work</h2>
+        <p class="mt-5 max-w-lg leading-relaxed text-cream-50/80">
+          Based in Greenbrier, we appraise residential and commercial properties throughout Faulkner County and the
+          surrounding region.
+        </p>
+        <ul class="mt-8 flex flex-wrap gap-2">
+          {SITE.serviceCities.map((city) => <li class="border border-cream-50/20 px-3 py-1.5 text-sm text-cream-50/80">{city}</li>)}
+        </ul>
+      </div>
+      <div class="relative aspect-[4/3] border border-cream-50/10" data-reveal data-reveal-delay="1">
+        <PlaceholderImage label="Service-area map of Faulkner County and Central Arkansas" tone="navy" class="h-full w-full" />
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="cream">
+    <div class="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between" data-reveal>
+      <div class="max-w-xl">
+        <h2 class="font-serif text-3xl leading-tight tracking-tight text-navy-950 sm:text-4xl">Let's Work Together</h2>
+        <p class="mt-4 leading-relaxed text-navy-700/90">Reach out to discuss your property and what you need.</p>
+      </div>
+      <Button href="/contact" variant="primary" size="lg">
+        Get in Touch
+        <ArrowRight class="h-4 w-4" aria-hidden="true" />
+      </Button>
+    </div>
+  </Section>
+</Layout>

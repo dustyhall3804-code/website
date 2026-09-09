@@ -1,0 +1,149 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import { Tag, KeyRound, Scale, ShieldCheck, FileSearch, ArrowRight, X, Check } from '@lucide/astro';
+
+const useCases = [
+  {
+    icon: Tag,
+    title: 'Pre-Listing Strategy',
+    body: 'Price your home right from day one with an independent valuation, before you commit to a listing price.',
+  },
+  {
+    icon: KeyRound,
+    title: 'Purchase & Refinance',
+    body: 'Get the accurate valuation your lender requires to move a purchase or refinance forward.',
+  },
+  {
+    icon: Scale,
+    title: 'Estate & Divorce Settlements',
+    body: 'A neutral, well-documented appraisal gives everyone involved a valuation they can trust.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'PMI Removal',
+    body: 'If your home has gained equity, a current appraisal may be all you need to eliminate private mortgage insurance.',
+  },
+  {
+    icon: FileSearch,
+    title: 'Property Tax Appeal',
+    body: 'If your assessed value seems too high, an independent appraisal is the strongest evidence for an appeal.',
+  },
+];
+
+const automated = [
+  'Based on public records and algorithms',
+  'No interior inspection',
+  'Can miss renovations, damage, or unique features',
+  'Not accepted by lenders, courts, or the IRS',
+  'Accuracy varies widely, sometimes by a lot',
+];
+
+const licensed = [
+  'Prepared by a state-licensed appraiser',
+  'Full interior and exterior inspection',
+  'Accounts for condition, upgrades, and unique features',
+  'Accepted by lenders, courts, attorneys, and taxing authorities',
+  'USPAP-compliant, defensible documentation',
+];
+---
+
+<Layout
+  title="Residential Appraisals | Cooper Appraisal Company"
+  description="Certified residential appraisals for pre-listing, purchase and refinance, estate and divorce, PMI removal, and tax appeals in Greenbrier and Central Arkansas."
+  path="/residential"
+>
+  <PageHeader
+    eyebrow="Residential Appraisals"
+    title="Residential Real Estate Appraisals"
+    description="Clear, accurate valuations for homeowners and the professionals who work with them."
+    imageLabel="Exterior of a residential home in central Arkansas"
+  />
+
+  <Section tone="cream">
+    <div class="max-w-2xl" data-reveal>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-600">When You Need Us</p>
+      <h2 class="mt-4 font-serif text-3xl leading-tight tracking-tight text-navy-950 sm:text-4xl">
+        When You Need a Residential Appraisal
+      </h2>
+    </div>
+    <div class="mt-12 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2">
+      {
+        useCases.map((item, i) => (
+          <div class="flex gap-5" data-reveal data-reveal-delay={String(Math.min(i + 1, 4))}>
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center border border-brass-400/40 bg-white">
+              <item.icon class="h-5 w-5 text-brass-500" aria-hidden="true" />
+            </div>
+            <div>
+              <h3 class="font-serif text-lg text-navy-950">{item.title}</h3>
+              <p class="mt-2 leading-relaxed text-navy-700/90">{item.body}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section tone="creamAlt">
+    <div class="max-w-2xl" data-reveal>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-600">Know the Difference</p>
+      <h2 class="mt-4 font-serif text-3xl leading-tight tracking-tight text-navy-950 sm:text-4xl">
+        An Appraisal Isn't a Zillow Estimate
+      </h2>
+      <p class="mt-4 text-navy-700/90">
+        Automated valuation tools rely on public data and algorithms — they've never seen the inside of your home,
+        don't know about a recent renovation, and can be off by a significant margin. A licensed appraisal is
+        different.
+      </p>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div class="border border-navy-900/10 bg-white p-8" data-reveal>
+        <h3 class="font-serif text-xl text-navy-950">Automated Estimate</h3>
+        <ul class="mt-5 space-y-3">
+          {
+            automated.map((item) => (
+              <li class="flex items-start gap-3 text-navy-700/90">
+                <X class="mt-0.5 h-4 w-4 shrink-0 text-navy-500" aria-hidden="true" />
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="border border-brass-400/50 bg-white p-8" data-reveal data-reveal-delay="1">
+        <h3 class="font-serif text-xl text-navy-950">Licensed Appraisal</h3>
+        <ul class="mt-5 space-y-3">
+          {
+            licensed.map((item) => (
+              <li class="flex items-start gap-3 text-navy-700/90">
+                <Check class="mt-0.5 h-4 w-4 shrink-0 text-brass-500" aria-hidden="true" />
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="navy">
+    <div class="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between" data-reveal>
+      <div class="max-w-xl">
+        <h2 class="font-serif text-3xl leading-tight tracking-tight sm:text-4xl">Let's Get Started</h2>
+        <p class="mt-4 leading-relaxed text-cream-50/80">
+          Tell us about your property and what you need, and we'll follow up promptly.
+        </p>
+      </div>
+      <div class="flex flex-col gap-4 sm:flex-row">
+        <Button href="/contact?type=order" variant="accent" size="lg">
+          Request an Appraisal
+          <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </Button>
+        <Button href="/contact?type=quote" variant="outlineLight" size="lg">Get a Fee Quote</Button>
+      </div>
+    </div>
+  </Section>
+</Layout>

@@ -1,0 +1,23 @@
+---
+import PlaceholderImage from './PlaceholderImage.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  imageLabel: string;
+}
+
+const { eyebrow, title, description, imageLabel } = Astro.props;
+---
+
+<div class="relative isolate flex min-h-[44vh] items-end overflow-hidden bg-navy-950 text-cream-50 md:min-h-[50vh]">
+  <PlaceholderImage label={imageLabel} tone="navy" variant="full" class="z-0" />
+  <div class="relative z-10 mx-auto w-full max-w-7xl px-6 pt-32 pb-14 md:px-8 md:pt-40 md:pb-20">
+    <div class="max-w-2xl" data-reveal>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-400">{eyebrow}</p>
+      <h1 class="mt-5 font-serif text-4xl leading-[1.1] tracking-tight sm:text-5xl">{title}</h1>
+      {description && <p class="mt-5 max-w-xl text-lg leading-relaxed text-cream-50/80">{description}</p>}
+    </div>
+  </div>
+</div>

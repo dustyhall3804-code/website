@@ -4,7 +4,7 @@ interface Props {
   class?: string;
 }
 
-const { title, class: className = '' } = Astro.props;
+const { title, class: className = '', ...rest } = Astro.props;
 ---
 
 <div
@@ -12,6 +12,7 @@ const { title, class: className = '' } = Astro.props;
     'group relative flex h-full flex-col border border-navy-900/10 bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brass-400/60 hover:shadow-soft',
     className,
   ]}
+  {...rest}
 >
   <slot name="icon" />
   {title && <h3 class="mt-5 font-serif text-xl text-navy-950">{title}</h3>}

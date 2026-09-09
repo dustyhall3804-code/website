@@ -1,0 +1,125 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import PlaceholderImage from '../components/PlaceholderImage.astro';
+import { DollarSign, ShieldAlert, Scale3d, Briefcase, Home as HomeIcon, HardHat, ArrowRight } from '@lucide/astro';
+
+const whyItMatters = [
+  {
+    icon: DollarSign,
+    title: 'Pricing Accuracy',
+    body: 'Square footage is one of the biggest drivers of listing price. An error of even a few hundred square feet can mean thousands of dollars.',
+  },
+  {
+    icon: ShieldAlert,
+    title: 'Avoiding Disputes',
+    body: 'Buyers, agents, and appraisers increasingly compare measurements. An inconsistent number can delay or derail a sale.',
+  },
+  {
+    icon: Scale3d,
+    title: 'Legal Protection',
+    body: 'An ANSI-standard measurement, documented and dated, protects agents and sellers if square footage is ever questioned after closing.',
+  },
+];
+
+const whoNeedsIt = [
+  { icon: Briefcase, label: 'Listing agents preparing marketing materials' },
+  { icon: HomeIcon, label: "FSBO sellers who don't have an agent's resources" },
+  { icon: ShieldAlert, label: 'Homeowners refinancing or settling an estate' },
+  { icon: HardHat, label: 'Builders and developers needing documented GLA' },
+];
+---
+
+<Layout
+  title="House Measuring & GLA | Cooper Appraisal Company"
+  description="ANSI Z765-standard house measuring and gross living area (GLA) services for agents, FSBO sellers, and homeowners in Greenbrier and Central Arkansas."
+  path="/house-measuring"
+>
+  <PageHeader
+    eyebrow="House Measuring"
+    title="Professional House Measuring & GLA"
+    description="ANSI-standard square footage measurement — accurate, consistent, and defensible."
+    imageLabel="Appraiser measuring the exterior of a home"
+  />
+
+  <Section tone="cream">
+    <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+      <div data-reveal>
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-600">The Standard</p>
+        <h2 class="mt-4 font-serif text-3xl leading-tight tracking-tight text-navy-950 sm:text-4xl">
+          What Is ANSI-Standard Measuring?
+        </h2>
+        <p class="mt-5 leading-relaxed text-navy-700/90">
+          Gross Living Area (GLA) — the square footage figure buyers, agents, and appraisers rely on — isn't always
+          measured consistently. We use the ANSI Z765 standard, the same methodology used in professional
+          appraisals, to produce a precise, repeatable measurement of a property's finished, above-grade living
+          area.
+        </p>
+      </div>
+      <div class="relative aspect-[4/3]" data-reveal data-reveal-delay="1">
+        <PlaceholderImage label="Floor plan sketch with ANSI measurement annotations" tone="navy" class="h-full w-full" />
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="creamAlt">
+    <div class="max-w-2xl" data-reveal>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-600">Why It Matters</p>
+      <h2 class="mt-4 font-serif text-3xl leading-tight tracking-tight text-navy-950 sm:text-4xl">
+        Why Accurate Square Footage Matters
+      </h2>
+    </div>
+    <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+      {
+        whyItMatters.map((item, i) => (
+          <div
+            class="border border-navy-900/10 bg-white p-8"
+            data-reveal
+            data-reveal-delay={String(Math.min(i + 1, 3))}
+          >
+            <item.icon class="h-7 w-7 text-brass-500" aria-hidden="true" />
+            <h3 class="mt-4 font-serif text-lg text-navy-950">{item.title}</h3>
+            <p class="mt-2 leading-relaxed text-navy-700/90">{item.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section tone="cream" width="narrow">
+    <div data-reveal>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-600">Who It's For</p>
+      <h2 class="mt-4 font-serif text-3xl leading-tight tracking-tight text-navy-950 sm:text-4xl">Who This Service Is For</h2>
+      <ul class="mt-8 space-y-4">
+        {
+          whoNeedsIt.map((item) => (
+            <li class="flex items-start gap-3">
+              <item.icon class="mt-0.5 h-5 w-5 shrink-0 text-brass-500" aria-hidden="true" />
+              <span class="text-navy-700/90">{item.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <Section tone="navy">
+    <div class="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between" data-reveal>
+      <div class="max-w-xl">
+        <h2 class="font-serif text-3xl leading-tight tracking-tight sm:text-4xl">Need a Measurement You Can Trust?</h2>
+        <p class="mt-4 leading-relaxed text-cream-50/80">
+          Tell us about the property, and we'll follow up promptly with next steps.
+        </p>
+      </div>
+      <div class="flex flex-col gap-4 sm:flex-row">
+        <Button href="/contact?type=order" variant="accent" size="lg">
+          Request Service
+          <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </Button>
+        <Button href="/contact?type=quote" variant="outlineLight" size="lg">Get a Fee Quote</Button>
+      </div>
+    </div>
+  </Section>
+</Layout>

@@ -1,5 +1,5 @@
 ---
-import { Menu, X, Phone } from '@lucide/astro';
+import { Menu, X, Phone, LogIn } from '@lucide/astro';
 import Button from './Button.astro';
 import { SITE, NAV_LINKS } from '../data/site';
 
@@ -30,6 +30,16 @@ const { pathname } = Astro.url;
     </nav>
 
     <div class="hidden items-center gap-6 lg:flex">
+      <a
+        href={SITE.clientPortalUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-brass-400"
+      >
+        <LogIn class="h-4 w-4" aria-hidden="true" />
+        Client Login
+        <span class="sr-only">(opens in a new tab)</span>
+      </a>
       <a href={SITE.phoneHref} class="flex items-center gap-2 text-sm font-medium transition-colors hover:text-brass-400">
         <Phone class="h-4 w-4" aria-hidden="true" />
         {SITE.phone}
@@ -72,6 +82,16 @@ const { pathname } = Astro.url;
       <a href={SITE.phoneHref} class="mt-4 flex items-center gap-2 text-sm font-medium text-cream-50">
         <Phone class="h-4 w-4" aria-hidden="true" />
         {SITE.phone}
+      </a>
+      <a
+        href={SITE.clientPortalUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-3 flex items-center gap-2 text-sm font-medium text-cream-50/80 hover:text-brass-400"
+      >
+        <LogIn class="h-4 w-4" aria-hidden="true" />
+        Client Login
+        <span class="sr-only">(opens in a new tab)</span>
       </a>
       <Button href="/contact" variant="accent" size="md" class="mt-4 w-full">Request an Appraisal</Button>
     </nav>

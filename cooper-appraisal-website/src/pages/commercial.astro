@@ -1,0 +1,138 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import Card from '../components/Card.astro';
+import Button from '../components/Button.astro';
+import { Store, Building2, Warehouse, Users2, UtensilsCrossed, MapPinned, ArrowRight, CheckCircle2 } from '@lucide/astro';
+
+const propertyTypes = [
+  { icon: Store, label: 'Retail & Mixed-Use' },
+  { icon: Building2, label: 'Office Buildings' },
+  { icon: Warehouse, label: 'Industrial & Warehouse' },
+  { icon: Users2, label: 'Multi-Family (5+ Units)' },
+  { icon: UtensilsCrossed, label: 'Restaurant & Hospitality' },
+  { icon: MapPinned, label: 'Special-Purpose & Land' },
+];
+
+const useCases = [
+  {
+    title: 'Financing & Refinancing',
+    body: 'Lenders require a credible, well-supported valuation before approving commercial financing. We deliver reports built to satisfy underwriting requirements.',
+  },
+  {
+    title: 'Litigation & Dispute Resolution',
+    body: 'When a valuation is challenged in court, it needs to hold up. Our reports are built to withstand cross-examination and expert review.',
+  },
+  {
+    title: 'Partnership & Estate Dissolution',
+    body: 'Dividing commercial property among partners or heirs starts with an accurate, unbiased valuation both sides can trust.',
+  },
+  {
+    title: 'Purchase & Sale Decisions',
+    body: "Know what a property is really worth before you buy, sell, or negotiate — independent of what either side wants it to be.",
+  },
+  {
+    title: 'Property Tax Appeals',
+    body: 'If your commercial assessment seems too high, a professional appraisal is the foundation of a successful appeal.',
+  },
+];
+
+const included = [
+  'On-site property inspection',
+  'Market and comparable sales analysis',
+  'Income and/or cost approach valuation, as applicable',
+  'Detailed property photos and documentation',
+  'USPAP-compliant report format',
+  'Clear presentation suitable for lenders, attorneys, or courts',
+];
+---
+
+<Layout
+  title="Commercial Appraisals | Cooper Appraisal Company"
+  description="Certified commercial real estate appraisals for financing, litigation, partnership dissolution, and tax appeals across central Arkansas."
+  path="/commercial"
+>
+  <PageHeader
+    eyebrow="Commercial Appraisals"
+    title="Commercial Real Estate Appraisals"
+    description="Defensible valuations for the properties and decisions where accuracy matters most."
+    imageLabel="Exterior of a commercial or mixed-use building in central Arkansas"
+  />
+
+  <Section tone="cream">
+    <div class="max-w-2xl" data-reveal>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-600">Property Types</p>
+      <h2 class="mt-4 font-serif text-3xl leading-tight tracking-tight text-navy-950 sm:text-4xl">
+        Property Types We Appraise
+      </h2>
+    </div>
+    <div class="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        propertyTypes.map((item, i) => (
+          <div
+            class="flex items-center gap-4 border border-navy-900/10 bg-white p-6"
+            data-reveal
+            data-reveal-delay={String(Math.min(i + 1, 4))}
+          >
+            <item.icon class="h-6 w-6 shrink-0 text-brass-500" aria-hidden="true" />
+            <span class="font-serif text-lg text-navy-950">{item.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section tone="creamAlt">
+    <div class="max-w-2xl" data-reveal>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-600">Use Cases</p>
+      <h2 class="mt-4 font-serif text-3xl leading-tight tracking-tight text-navy-950 sm:text-4xl">
+        Built for High-Stakes Decisions
+      </h2>
+    </div>
+    <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+      {
+        useCases.map((item, i) => (
+          <Card title={item.title} class="h-full" data-reveal data-reveal-delay={String(Math.min(i + 1, 4))}>
+            <p>{item.body}</p>
+          </Card>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section tone="cream" width="narrow">
+    <div data-reveal>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-600">The Report</p>
+      <h2 class="mt-4 font-serif text-3xl leading-tight tracking-tight text-navy-950 sm:text-4xl">What's In Your Report</h2>
+      <ul class="mt-8 space-y-4">
+        {
+          included.map((item) => (
+            <li class="flex items-start gap-3">
+              <CheckCircle2 class="mt-0.5 h-5 w-5 shrink-0 text-brass-500" aria-hidden="true" />
+              <span class="text-navy-700/90">{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <Section tone="navy">
+    <div class="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between" data-reveal>
+      <div class="max-w-xl">
+        <h2 class="font-serif text-3xl leading-tight tracking-tight sm:text-4xl">Ready to Move Forward?</h2>
+        <p class="mt-4 leading-relaxed text-cream-50/80">
+          Tell us about the property and what you need, and we'll follow up promptly.
+        </p>
+      </div>
+      <div class="flex flex-col gap-4 sm:flex-row">
+        <Button href="/contact?type=order" variant="accent" size="lg">
+          Request an Appraisal
+          <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </Button>
+        <Button href="/contact?type=quote" variant="outlineLight" size="lg">Get a Fee Quote</Button>
+      </div>
+    </div>
+  </Section>
+</Layout>

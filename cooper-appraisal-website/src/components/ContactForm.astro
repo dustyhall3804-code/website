@@ -1,0 +1,223 @@
+---
+import Button from './Button.astro';
+import { SITE } from '../data/site';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const fieldClasses =
+  'mt-2 w-full border border-navy-900/20 bg-white px-4 py-3 text-navy-950 placeholder:text-navy-900/40 focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-navy-700/30';
+---
+
+<form id="contact-form" class:list={['space-y-6', className]} novalidate>
+  <fieldset>
+    <legend class="text-sm font-semibold text-navy-950">What can we help with?</legend>
+    <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+      {
+        [
+          { id: 'type-order', value: 'order', label: 'Order an Appraisal' },
+          { id: 'type-quote', value: 'quote', label: 'Get a Fee Quote' },
+          { id: 'type-general', value: 'general', label: 'General Question' },
+        ].map((opt, i) => (
+          <div>
+            <input type="radio" name="requestType" id={opt.id} value={opt.value} class="peer sr-only" checked={i === 0} />
+            <label
+              for={opt.id}
+              class="block cursor-pointer border border-navy-900/20 px-4 py-3 text-center text-sm font-medium text-navy-900 transition-colors hover:border-navy-900/40 peer-checked:border-brass-400 peer-checked:bg-brass-400/10 peer-checked:text-navy-950 peer-focus-visible:ring-2 peer-focus-visible:ring-navy-700 peer-focus-visible:ring-offset-2"
+            >
+              {opt.label}
+            </label>
+          </div>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div>
+      <label for="name" class="text-sm font-semibold text-navy-950">Full Name <span class="text-brass-600">*</span></label>
+      <input type="text" id="name" name="name" required autocomplete="name" aria-describedby="name-error" class={fieldClasses} />
+      <p class="error-text mt-1.5 hidden text-sm text-red-700" id="name-error" aria-live="polite" />
+    </div>
+    <div>
+      <label for="email" class="text-sm font-semibold text-navy-950">Email <span class="text-brass-600">*</span></label>
+      <input type="email" id="email" name="email" required autocomplete="email" aria-describedby="email-error" class={fieldClasses} />
+      <p class="error-text mt-1.5 hidden text-sm text-red-700" id="email-error" aria-live="polite" />
+    </div>
+    <div>
+      <label for="phone" class="text-sm font-semibold text-navy-950">Phone</label>
+      <input type="tel" id="phone" name="phone" autocomplete="tel" class={fieldClasses} />
+    </div>
+    <div>
+      <label for="address" class="text-sm font-semibold text-navy-950">Property Address</label>
+      <input type="text" id="address" name="address" autocomplete="street-address" class={fieldClasses} />
+    </div>
+  </div>
+
+  <div>
+    <label for="service" class="text-sm font-semibold text-navy-950">Service Needed <span class="text-brass-600">*</span></label>
+    <select id="service" name="service" required aria-describedby="service-error" class={fieldClasses}>
+      <option value="">Select one&hellip;</option>
+      <option value="residential">Residential Appraisal</option>
+      <option value="commercial">Commercial Appraisal</option>
+      <option value="house-measuring">House Measuring</option>
+      <option value="not-sure">Not Sure</option>
+    </select>
+    <p class="error-text mt-1.5 hidden text-sm text-red-700" id="service-error" aria-live="polite" />
+  </div>
+
+  <div>
+    <label for="message" class="text-sm font-semibold text-navy-950">Message <span class="text-brass-600">*</span></label>
+    <textarea
+      id="message"
+      name="message"
+      rows="5"
+      required
+      aria-describedby="message-error"
+      class={fieldClasses}
+      placeholder="Tell us about the property and what you need&hellip;"
+    />
+    <p class="error-text mt-1.5 hidden text-sm text-red-700" id="message-error" aria-live="polite" />
+  </div>
+
+  <div>
+    <Button type="submit" variant="accent" size="lg" class="w-full sm:w-auto" id="submit-button">Send Request</Button>
+  </div>
+</form>
+
+<!--
+  Deliberately outside the <form> above: on submit we hide the whole form
+  (form.hidden = true), so the success message has to live as a sibling —
+  nesting it inside the form would hide it along with everything else.
+-->
+<div id="form-success" class="hidden border border-brass-400/50 bg-brass-100/40 px-6 py-5 text-navy-950" role="status">
+  <p class="font-semibold">Thanks &mdash; your request has been received.</p>
+  <p class="mt-1 text-sm text-navy-700/90">We'll be in touch shortly. If your request is urgent, call {SITE.phone}.</p>
+</div>
+
+<script>
+  /*
+    TODO: wire this form up to a real submission handler before launch.
+    It currently validates client-side and shows a success state below,
+    but does NOT send data anywhere yet. Two straightforward options:
+
+    1) Formspree (https://formspree.io): create a form there, then set
+       this <form>'s action to your Formspree endpoint and either let it
+       submit normally (drop the preventDefault below) or POST via
+       fetch() and keep this same success/error UX.
+
+    2) Netlify Forms (if deploying on Netlify): add data-netlify="true"
+       and a hidden <input type="hidden" name="form-name" value="contact">
+       to the <form> tag, plus name="contact" on the form itself —
+       Netlify then handles submissions with no server code required.
+
+    Either way, keep the validation logic below; it's independent of how
+    the submission itself gets wired up.
+  */
+
+  const form = document.getElementById('contact-form');
+  const successPanel = document.getElementById('form-success');
+  const submitButton = document.getElementById('submit-button');
+
+  if (form instanceof HTMLFormElement) {
+    const typeLabels: Record<string, { submit: string; message: string }> = {
+      order: { submit: 'Request an Appraisal', message: 'Tell us about the property and the appraisal you need…' },
+      quote: { submit: 'Request a Fee Quote', message: 'Tell us about the property so we can quote a fee…' },
+      general: { submit: 'Send Message', message: 'How can we help?' },
+    };
+
+    const currentType = () => {
+      const checked = form.querySelector<HTMLInputElement>('input[name="requestType"]:checked');
+      return checked?.value || 'order';
+    };
+
+    const applyType = (type: string) => {
+      const labels = typeLabels[type] || typeLabels.order;
+      if (submitButton) submitButton.textContent = labels.submit;
+      const message = document.getElementById('message');
+      if (message instanceof HTMLTextAreaElement) message.placeholder = labels.message;
+    };
+
+    // Preselect from ?type=order|quote|general, so CTAs elsewhere on the
+    // site can deep-link straight into the right mode.
+    const params = new URLSearchParams(window.location.search);
+    const requestedType = params.get('type');
+    if (requestedType && typeLabels[requestedType]) {
+      const radio = form.querySelector<HTMLInputElement>(`input[name="requestType"][value="${requestedType}"]`);
+      if (radio) radio.checked = true;
+    }
+    applyType(currentType());
+
+    form.querySelectorAll('input[name="requestType"]').forEach((el) => {
+      el.addEventListener('change', () => applyType(currentType()));
+    });
+
+    const showError = (id: string, msg: string) => {
+      const el = document.getElementById(id + '-error');
+      const field = document.getElementById(id);
+      if (el) {
+        el.textContent = msg;
+        el.classList.remove('hidden');
+      }
+      field?.setAttribute('aria-invalid', 'true');
+    };
+
+    const clearError = (id: string) => {
+      document.getElementById(id + '-error')?.classList.add('hidden');
+      document.getElementById(id)?.removeAttribute('aria-invalid');
+    };
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      let firstInvalid: HTMLElement | null = null;
+      ['name', 'email', 'service', 'message'].forEach((id) => clearError(id));
+
+      const name = document.getElementById('name');
+      const email = document.getElementById('email');
+      const service = document.getElementById('service');
+      const message = document.getElementById('message');
+
+      if (name instanceof HTMLInputElement && !name.value.trim()) {
+        showError('name', 'Please enter your name.');
+        firstInvalid ||= name;
+      }
+      if (email instanceof HTMLInputElement) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.value.trim()) {
+          showError('email', 'Please enter your email.');
+          firstInvalid ||= email;
+        } else if (!emailPattern.test(email.value.trim())) {
+          showError('email', 'Please enter a valid email address.');
+          firstInvalid ||= email;
+        }
+      }
+      if (service instanceof HTMLSelectElement && !service.value) {
+        showError('service', 'Please select a service.');
+        firstInvalid ||= service;
+      }
+      if (message instanceof HTMLTextAreaElement && !message.value.trim()) {
+        showError('message', 'Please tell us a bit about what you need.');
+        firstInvalid ||= message;
+      }
+
+      if (firstInvalid) {
+        firstInvalid.focus();
+        return;
+      }
+
+      // TODO: replace with a real submission — see the comment above.
+      console.info('Contact form submitted (placeholder — not sent anywhere yet):', {
+        type: currentType(),
+        name: name instanceof HTMLInputElement ? name.value : '',
+        email: email instanceof HTMLInputElement ? email.value : '',
+      });
+
+      form.hidden = true;
+      successPanel?.classList.remove('hidden');
+    });
+  }
+</script>

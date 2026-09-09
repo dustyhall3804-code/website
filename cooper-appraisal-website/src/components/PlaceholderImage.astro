@@ -1,0 +1,51 @@
+---
+// Stand-in visual for real photography. Renders an abstract, on-brand
+// architectural line illustration so the layout reads as finished while
+// photos are sourced. Swap the whole component usage for a real <img>
+// (with a matching alt) once photography is available — see README.md.
+interface Props {
+  label: string;
+  ratio?: string;
+  tone?: 'navy' | 'cream';
+  variant?: 'card' | 'full';
+  class?: string;
+}
+
+const { label, ratio = '4/3', tone = 'navy', variant = 'card', class: className = '' } = Astro.props;
+const stroke = tone === 'navy' ? 'var(--color-brass-400)' : 'var(--color-navy-600)';
+---
+
+<div
+  class:list={[variant === 'full' ? 'absolute inset-0 overflow-hidden' : 'relative overflow-hidden', className]}
+  style={variant === 'card' ? `aspect-ratio: ${ratio};` : undefined}
+  role="img"
+  aria-label={label}
+>
+  <div
+    class:list={[
+      'absolute inset-0',
+      tone === 'navy'
+        ? 'bg-gradient-to-br from-navy-800 via-navy-900 to-navy-950'
+        : 'bg-gradient-to-br from-cream-200 via-cream-100 to-cream-50',
+    ]}
+  >
+    <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" class="h-full w-full opacity-[0.35]" aria-hidden="true">
+      <line x1="0" y1="230" x2="400" y2="230" stroke={stroke} stroke-width="1"></line>
+      <polyline
+        points="110,230 110,150 200,85 290,150 290,230"
+        fill="none"
+        stroke={stroke}
+        stroke-width="1.25"
+        vector-effect="non-scaling-stroke"></polyline>
+      <line x1="150" y1="230" x2="150" y2="190" stroke={stroke} stroke-width="1"></line>
+      <line x1="250" y1="230" x2="250" y2="190" stroke={stroke} stroke-width="1"></line>
+      <circle cx="335" cy="95" r="28" fill="none" stroke={stroke} stroke-width="1"></circle>
+    </svg>
+  </div>
+  {variant === 'full' && <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/50 to-navy-950/10" />}
+  <span
+    class="absolute bottom-4 left-4 inline-flex items-center bg-navy-950/70 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-cream-50 backdrop-blur-sm"
+  >
+    Placeholder photo — {label}
+  </span>
+</div>

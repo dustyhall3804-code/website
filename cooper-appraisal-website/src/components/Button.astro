@@ -1,0 +1,49 @@
+---
+interface Props {
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  variant?: 'primary' | 'accent' | 'outline' | 'outlineLight' | 'ghost';
+  size?: 'md' | 'lg';
+  class?: string;
+}
+
+const {
+  href,
+  type = 'button',
+  variant = 'primary',
+  size = 'md',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-sm font-sans font-medium tracking-wide no-underline transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2';
+
+const sizes: Record<string, string> = {
+  md: 'px-6 py-3 text-sm',
+  lg: 'px-8 py-4 text-[0.95rem]',
+};
+
+const variants: Record<string, string> = {
+  primary:
+    'bg-navy-900 text-cream-50 hover:bg-navy-800 focus-visible:ring-navy-700 focus-visible:ring-offset-cream-50',
+  accent:
+    'bg-brass-400 text-navy-950 hover:bg-brass-300 focus-visible:ring-brass-500 focus-visible:ring-offset-cream-50',
+  outline:
+    'border border-navy-900/30 text-navy-900 hover:border-navy-900 hover:bg-navy-900/5 focus-visible:ring-navy-700 focus-visible:ring-offset-cream-50',
+  outlineLight:
+    'border border-cream-50/40 text-cream-50 hover:border-cream-50 hover:bg-cream-50/10 focus-visible:ring-cream-50 focus-visible:ring-offset-navy-900',
+  ghost: 'text-navy-900 hover:text-brass-600 focus-visible:ring-navy-700 focus-visible:ring-offset-cream-50',
+};
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  href={href}
+  type={!href ? type : undefined}
+  class:list={[base, sizes[size], variants[variant], className]}
+  {...rest}
+>
+  <slot />
+</Tag>

@@ -1,0 +1,81 @@
+---
+import { Phone, Mail, MapPin, Clock } from '@lucide/astro';
+import { SITE, FOOTER_SERVICE_LINKS, FOOTER_COMPANY_LINKS } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-navy-950 text-cream-50">
+  <div class="mx-auto max-w-7xl px-6 py-16 md:px-8 md:py-20">
+    <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <a href="/" class="font-serif text-lg tracking-wide">
+          Cooper <span class="text-brass-400">Appraisal</span>
+        </a>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-cream-50/70">
+          Certified residential and commercial real estate appraisals serving Greenbrier and Central Arkansas.
+        </p>
+        <p class="mt-4 text-xs uppercase tracking-wider text-cream-50/50">
+          License {SITE.licenseNumber} &middot; {SITE.appraiserName}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-brass-400">Services</h2>
+        <ul class="mt-4 space-y-3">
+          {
+            FOOTER_SERVICE_LINKS.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-cream-50/80 transition-colors hover:text-brass-400">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-brass-400">Company</h2>
+        <ul class="mt-4 space-y-3">
+          {
+            FOOTER_COMPANY_LINKS.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-cream-50/80 transition-colors hover:text-brass-400">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-brass-400">Contact</h2>
+        <ul class="mt-4 space-y-3 text-sm text-cream-50/80">
+          <li class="flex items-start gap-2.5">
+            <Phone class="mt-0.5 h-4 w-4 shrink-0 text-brass-400" aria-hidden="true" />
+            <a href={SITE.phoneHref} class="transition-colors hover:text-brass-400">{SITE.phone}</a>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <Mail class="mt-0.5 h-4 w-4 shrink-0 text-brass-400" aria-hidden="true" />
+            <a href={SITE.emailHref} class="transition-colors hover:text-brass-400">{SITE.email}</a>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <MapPin class="mt-0.5 h-4 w-4 shrink-0 text-brass-400" aria-hidden="true" />
+            <span>{SITE.addressLine1}, {SITE.addressCity}, {SITE.addressState} {SITE.addressZip}</span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <Clock class="mt-0.5 h-4 w-4 shrink-0 text-brass-400" aria-hidden="true" />
+            <span>{SITE.hours}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-14 flex flex-col gap-4 border-t border-cream-50/10 pt-8 text-xs text-cream-50/50 sm:flex-row sm:items-center sm:justify-between">
+      <p>&copy; {year} {SITE.name}. All rights reserved.</p>
+      <p>Serving Greenbrier &amp; Faulkner County, Arkansas</p>
+    </div>
+  </div>
+</footer>

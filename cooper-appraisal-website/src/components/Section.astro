@@ -1,0 +1,43 @@
+---
+interface Props {
+  id?: string;
+  tone?: 'cream' | 'creamAlt' | 'navy' | 'white';
+  width?: 'default' | 'narrow' | 'wide' | 'full';
+  padding?: 'default' | 'tight' | 'none';
+  class?: string;
+}
+
+const {
+  id,
+  tone = 'cream',
+  width = 'default',
+  padding = 'default',
+  class: className = '',
+} = Astro.props;
+
+const tones: Record<string, string> = {
+  cream: 'bg-cream-50 text-navy-950',
+  creamAlt: 'bg-cream-100 text-navy-950',
+  navy: 'bg-navy-950 text-cream-50',
+  white: 'bg-white text-navy-950',
+};
+
+const widths: Record<string, string> = {
+  default: 'max-w-7xl',
+  narrow: 'max-w-3xl',
+  wide: 'max-w-[90rem]',
+  full: 'max-w-none',
+};
+
+const paddings: Record<string, string> = {
+  default: 'py-20 md:py-28',
+  tight: 'py-12 md:py-16',
+  none: 'py-0',
+};
+---
+
+<section id={id} class:list={['relative', tones[tone], paddings[padding], className]}>
+  <div class:list={['relative mx-auto px-6 md:px-8', widths[width]]}>
+    <slot />
+  </div>
+</section>

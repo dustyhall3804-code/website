@@ -1,0 +1,98 @@
+@import "tailwindcss";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/inter";
+
+/*
+  Design tokens for Cooper Appraisal Company.
+  Palette: deep navy anchor, warm cream neutrals, one restrained brass/gold accent.
+  Values are hand-tuned to keep AA contrast when paired as documented in the README.
+*/
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: "Fraunces Variable", ui-serif, Georgia, serif;
+
+  --color-navy-950: #0b1220;
+  --color-navy-900: #101c30;
+  --color-navy-800: #17263f;
+  --color-navy-700: #223454;
+  --color-navy-600: #33476b;
+  --color-navy-500: #4c6083;
+
+  --color-cream-50: #fdfbf6;
+  --color-cream-100: #f8f2e7;
+  --color-cream-200: #efe4ce;
+  --color-cream-300: #e1d0ac;
+
+  --color-brass-100: #f1e4c6;
+  --color-brass-200: #e5d3a4;
+  --color-brass-300: #d4b87c;
+  --color-brass-400: #c2a05e;
+  --color-brass-500: #a9843f;
+  --color-brass-600: #8a6a31;
+
+  --shadow-soft: 0 20px 40px -24px rgba(16, 28, 48, 0.25);
+  --shadow-soft-lg: 0 30px 60px -20px rgba(16, 28, 48, 0.3);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Keep anchored sections clear of the fixed nav */
+[id] {
+  scroll-margin-top: 6rem;
+}
+
+::selection {
+  background-color: var(--color-brass-300);
+  color: var(--color-navy-950);
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3.5rem;
+  z-index: 100;
+  background: var(--color-navy-950);
+  color: var(--color-cream-50);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Scroll-reveal: progressive enhancement only. The "reveal-ready" class is
+   added by JS after checking for IntersectionObserver support and the
+   user's reduced-motion preference, so content is never hidden for users
+   without JS or with motion disabled. */
+html.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.reveal-ready [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+[data-reveal-delay="1"] {
+  transition-delay: 0.08s;
+}
+[data-reveal-delay="2"] {
+  transition-delay: 0.16s;
+}
+[data-reveal-delay="3"] {
+  transition-delay: 0.24s;
+}
+[data-reveal-delay="4"] {
+  transition-delay: 0.32s;
+}

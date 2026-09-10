@@ -4,6 +4,7 @@ import Section from '../components/Section.astro';
 import Card from '../components/Card.astro';
 import Button from '../components/Button.astro';
 import PlaceholderImage from '../components/PlaceholderImage.astro';
+import HouseArt from '../components/HouseArt.astro';
 import {
   Building2,
   Home as HomeIcon,
@@ -95,8 +96,9 @@ const testimonials = [1, 2, 3];
   path="/"
 >
   <!-- Hero -->
-  <div class="relative isolate flex min-h-[92vh] items-center overflow-hidden bg-navy-950 text-cream-50">
+  <div class="relative isolate flex min-h-[92vh] items-center overflow-hidden bg-navy-950 text-cream-50" data-hero>
     <PlaceholderImage label="Exterior of a central Arkansas home at dusk" tone="navy" variant="full" class="z-0" />
+    <HouseArt class="pointer-events-none absolute right-4 top-1/2 z-[5] hidden -translate-y-1/2 sm:block md:right-12 lg:right-20" />
     <div class="relative z-10 mx-auto w-full max-w-7xl px-6 pt-28 pb-20 md:px-8 md:pt-32">
       <div class="max-w-2xl" data-reveal>
         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brass-400">

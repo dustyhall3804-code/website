@@ -1,0 +1,119 @@
+---
+// Decorative architectural line-art house used in the Home hero. Draws
+// itself in on load, then drifts, scales, and tilts slightly as the user
+// scrolls past the hero — a small signature flourish, not used elsewhere.
+// Purely decorative: aria-hidden, and inert (no motion) under
+// prefers-reduced-motion or without JS.
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['house-art', className]} data-house-art aria-hidden="true">
+  <svg viewBox="0 0 240 220" width="100%" height="100%" fill="none">
+    <defs>
+      <radialGradient id="houseGlow" cx="50%" cy="46%" r="55%">
+        <stop offset="0%" stop-color="#c2a05e" stop-opacity="0.22" />
+        <stop offset="100%" stop-color="#c2a05e" stop-opacity="0" />
+      </radialGradient>
+    </defs>
+    <circle cx="120" cy="105" r="100" fill="url(#houseGlow)" />
+    <g stroke="#c2a05e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path class="hl" data-order="0" d="M40 112 L120 44 L200 112" />
+      <path class="hl" data-order="1" d="M62 112 V188 H178 V112" />
+      <path class="hl" data-order="2" d="M108 188 V144 H132 V188" />
+      <rect class="hl" data-order="3" x="144" y="128" width="26" height="26" />
+      <path class="hl" data-order="3" d="M144 141 H170 M157 128 V154" />
+      <path class="hl" data-order="4" d="M160 90 V54 H177 V78" />
+      <line class="hl" data-order="5" x1="24" y1="188" x2="216" y2="188" stroke-opacity="0.5" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .house-art {
+    width: 15rem;
+    aspect-ratio: 240 / 220;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    will-change: transform;
+  }
+  @media (min-width: 640px) {
+    .house-art {
+      width: 20rem;
+    }
+  }
+
+  .hl {
+    stroke-dasharray: 340;
+    stroke-dashoffset: 0;
+  }
+  /* Only pre-hide strokes (for the draw-in) once JS has confirmed motion
+     is welcome — otherwise the house simply renders complete. */
+  html.house-draw-ready .hl {
+    stroke-dashoffset: 340;
+    transition: stroke-dashoffset 1.1s var(--ease-premium);
+  }
+  html.house-draw-ready .hl[data-order='0'] {
+    transition-delay: 0.1s;
+  }
+  html.house-draw-ready .hl[data-order='1'] {
+    transition-delay: 0.35s;
+  }
+  html.house-draw-ready .hl[data-order='2'] {
+    transition-delay: 0.6s;
+  }
+  html.house-draw-ready .hl[data-order='3'] {
+    transition-delay: 0.75s;
+  }
+  html.house-draw-ready .hl[data-order='4'] {
+    transition-delay: 0.55s;
+  }
+  html.house-draw-ready .hl[data-order='5'] {
+    transition-delay: 0.9s;
+  }
+  html.house-draw-ready [data-house-art].is-drawn .hl {
+    stroke-dashoffset: 0;
+  }
+</style>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const el = document.querySelector<HTMLElement>('[data-house-art]');
+
+  if (el && !reduceMotion) {
+    document.documentElement.classList.add('house-draw-ready');
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('is-drawn')));
+
+    const hero = el.closest<HTMLElement>('[data-hero]');
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      if (!hero) return;
+      const rect = hero.getBoundingClientRect();
+      const distance = rect.height || 1;
+      // 0 at the top of the hero, 1 once it has fully scrolled by.
+      const progress = Math.min(Math.max(-rect.top / distance, 0), 1);
+
+      const translateY = progress * 46; // drifts down, lagging the scroll
+      const translateX = progress * -14;
+      const scale = 1 + progress * 0.1;
+      const rotate = progress * -4;
+
+      el.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale}) rotate(${rotate}deg)`;
+      el.style.opacity = String(1 - progress * 0.25);
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+  }
+</script>

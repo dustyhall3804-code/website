@@ -32,6 +32,11 @@
 
   --shadow-soft: 0 20px 40px -24px rgba(16, 28, 48, 0.25);
   --shadow-soft-lg: 0 30px 60px -20px rgba(16, 28, 48, 0.3);
+
+  /* Shared premium easing — used for reveals, hovers, and the nav's
+     scroll-condense transition so every motion on the site decelerates
+     the same way. */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {
@@ -75,24 +80,24 @@ html {
    without JS or with motion disabled. */
 html.reveal-ready [data-reveal] {
   opacity: 0;
-  transform: translateY(1.25rem);
+  transform: translateY(1.5rem) scale(0.985);
   transition:
-    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.9s var(--ease-premium),
+    transform 0.9s var(--ease-premium);
 }
 html.reveal-ready [data-reveal].is-visible {
   opacity: 1;
   transform: none;
 }
 [data-reveal-delay="1"] {
-  transition-delay: 0.08s;
+  transition-delay: 0.09s;
 }
 [data-reveal-delay="2"] {
-  transition-delay: 0.16s;
+  transition-delay: 0.18s;
 }
 [data-reveal-delay="3"] {
-  transition-delay: 0.24s;
+  transition-delay: 0.27s;
 }
 [data-reveal-delay="4"] {
-  transition-delay: 0.32s;
+  transition-delay: 0.36s;
 }

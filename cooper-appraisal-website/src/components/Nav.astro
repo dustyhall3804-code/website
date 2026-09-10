@@ -7,12 +7,12 @@ const { pathname } = Astro.url;
 ---
 
 <header id="site-nav" class="fixed inset-x-0 top-0 z-50 text-cream-50" data-nav>
-  <div class="mx-auto flex max-w-7xl items-center justify-between px-6 md:px-8">
-    <a href="/" class="font-serif text-lg tracking-wide">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 md:px-8">
+    <a href="/" class="shrink-0 font-serif text-lg tracking-wide">
       Cooper <span class="text-brass-400">Appraisal</span>
     </a>
 
-    <nav class="hidden items-center gap-8 lg:flex" aria-label="Primary">
+    <nav class="hidden items-center gap-6 whitespace-nowrap xl:flex" aria-label="Primary">
       {
         NAV_LINKS.map((link) => (
           <a
@@ -29,28 +29,31 @@ const { pathname } = Astro.url;
       }
     </nav>
 
-    <div class="hidden items-center gap-6 lg:flex">
+    <div class="hidden items-center gap-5 xl:flex">
       <a
         href={SITE.clientPortalUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-brass-400"
+        title="Client Login (opens in a new tab)"
+        class="flex items-center justify-center rounded-sm p-2 transition-colors hover:text-brass-400"
       >
         <LogIn class="h-4 w-4" aria-hidden="true" />
-        Client Login
-        <span class="sr-only">(opens in a new tab)</span>
+        <span class="sr-only">Client Login (opens in a new tab)</span>
       </a>
-      <a href={SITE.phoneHref} class="flex items-center gap-2 text-sm font-medium transition-colors hover:text-brass-400">
-        <Phone class="h-4 w-4" aria-hidden="true" />
+      <a
+        href={SITE.phoneHref}
+        class="flex items-center gap-2 whitespace-nowrap text-sm font-medium transition-colors hover:text-brass-400"
+      >
+        <Phone class="h-4 w-4 shrink-0" aria-hidden="true" />
         {SITE.phone}
       </a>
-      <Button href="/contact" variant="accent" size="md">Request an Appraisal</Button>
+      <Button href="/contact" variant="accent" size="md" class="whitespace-nowrap">Request an Appraisal</Button>
     </div>
 
     <button
       type="button"
       id="mobile-menu-toggle"
-      class="inline-flex items-center justify-center p-2 lg:hidden"
+      class="inline-flex items-center justify-center p-2 xl:hidden"
       aria-expanded="false"
       aria-controls="mobile-menu"
       aria-label="Open menu"
@@ -62,7 +65,7 @@ const { pathname } = Astro.url;
 
   <div
     id="mobile-menu"
-    class="hidden border-t border-cream-50/10 bg-navy-950 lg:hidden"
+    class="hidden border-t border-cream-50/10 bg-navy-950 xl:hidden"
     role="dialog"
     aria-modal="true"
     aria-label="Mobile navigation"
@@ -104,11 +107,11 @@ const { pathname } = Astro.url;
     padding-block: 1.5rem;
     border-bottom: 1px solid transparent;
     transition:
-      background-color 0.35s ease,
-      padding 0.35s ease,
-      box-shadow 0.35s ease,
-      border-color 0.35s ease,
-      color 0.35s ease;
+      background-color 0.45s var(--ease-premium),
+      padding 0.45s var(--ease-premium),
+      box-shadow 0.45s var(--ease-premium),
+      border-color 0.45s var(--ease-premium),
+      color 0.45s var(--ease-premium);
   }
   #site-nav.is-scrolled {
     background: color-mix(in srgb, var(--color-cream-50) 94%, transparent);

@@ -152,8 +152,8 @@ async function startWebGL(hero: HTMLElement) {
 }
 
 // ------------------------------------------------------------------ frames
-// frames per orientation (pipeline/render_frames.py --frames)
-const FRAME_COUNTS: Record<string, number> = { landscape: 160, portrait: 120 };
+// frames per orientation, written by scripts/encode-frames.mjs
+let FRAME_COUNTS: Record<string, number> = { landscape: 0, portrait: 0 };
 
 async function supportsAvif() {
   const img = new Image();
@@ -168,13 +168,19 @@ async function supportsAvif() {
 }
 
 async function startFrames(hero: HTMLElement) {
+  try {
+    FRAME_COUNTS = await (await fetch('/hero/frames/manifest.json')).json();
+  } catch {
+    return; // no sequence published yet: the poster stays up
+  }
   const canvas = hero.querySelector<HTMLCanvasElement>('[data-frames]')!;
   const ctx = canvas.getContext('2d', { alpha: false })!;
   const ext = (await supportsAvif()) ? 'avif' : 'webp';
   const sets: Record<string, (HTMLImageElement | null)[]> = {};
   const loadSet = (orient: string) => {
     if (sets[orient]) return sets[orient];
-    const FRAME_COUNT = FRAME_COUNTS[orient];
+    // a missing orientation falls back to the other one (cover-fit handles the crop)
+    const FRAME_COUNT = FRAME_COUNTS[orient] || 0;
     const arr: (HTMLImageElement | null)[] = new Array(FRAME_COUNT).fill(null);
     sets[orient] = arr;
     // coarse-to-fine: every 16th frame first; the rest once the visitor scrolls
@@ -215,7 +221,9 @@ async function startFrames(hero: HTMLElement) {
 
   let last = -1;
   const draw = () => {
-    const orient = heroState.portrait ? 'portrait' : 'landscape';
+    let orient = heroState.portrait ? 'portrait' : 'landscape';
+    if (!FRAME_COUNTS[orient]) orient = orient === 'portrait' ? 'landscape' : 'portrait';
+    if (!FRAME_COUNTS[orient]) return;
     const arr = loadSet(orient);
     const FRAME_COUNT = arr.length;
     const want = Math.round(heroState.progress * (FRAME_COUNT - 1));

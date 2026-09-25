@@ -1,5 +1,8 @@
 """Render the scroll sequence from build/scene.blend.
 
+`--step 2` renders every other frame of the sequence; running again without it
+fills in the rest (existing frames are skipped).
+
     python render_frames.py --orient landscape --frames 180 [--start 0 --end 180]
                             [--res 1280] [--samples 28] [--only 0.1,0.4]
 
@@ -31,6 +34,7 @@ ap.add_argument("--samples", type=int, default=28)
 ap.add_argument("--only", default=None, help="comma-separated progress values (look-dev)")
 ap.add_argument("--out", default=None)
 ap.add_argument("--threads", type=int, default=0)
+ap.add_argument("--step", type=int, default=1, help="render every Nth frame (2 = half-rate preview)")
 args = ap.parse_args(argv)
 
 bpy.ops.wm.open_mainfile(filepath=os.path.join(HERE, "build", "scene.blend"))
@@ -150,9 +154,9 @@ if args.only:
         frame(p, os.path.join(out_dir, f"look_{args.orient}_{p:.3f}.png"))
 else:
     end = args.end if args.end is not None else args.frames
-    for i in range(args.start, end):
+    for i in range(args.start, end, args.step):
         path = os.path.join(out_dir, f"f_{i:04d}.png")
         if os.path.exists(path):
             continue
         frame(i / (args.frames - 1), path)
-        print(f"frame {i + 1}/{args.frames}", flush=True)
+        print(f"frame {i}/{args.frames}", flush=True)

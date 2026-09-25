@@ -2,6 +2,7 @@
 // to AVIF + WebP for the scroll-scrubbed fallback, plus poster and OG images.
 //   npm run frames              every rendered frame
 //   npm run frames -- --step 2  every other frame (half-rate preview)
+//   npm run frames -- --orient landscape   one orientation only
 // Output frames are numbered 0..N-1 and counts go to frames/manifest.json,
 // which the hero reads, so switching between 80 and 160 needs no code change.
 import { readdir, mkdir, rm, writeFile } from 'node:fs/promises';
@@ -14,9 +15,13 @@ const src = path.join(root, 'pipeline', 'build', 'frames');
 const out = path.join(root, 'public', 'hero');
 const stepArg = process.argv.indexOf('--step');
 const step = stepArg > 0 ? parseInt(process.argv[stepArg + 1], 10) : 1;
-const manifest = {};
+const orientArg = process.argv.indexOf('--orient');
+const orients = orientArg > 0 ? [process.argv[orientArg + 1]] : ['landscape', 'portrait'];
+// keep counts for orientations not being re-encoded
+let manifest = {};
+try { manifest = JSON.parse(await (await import('node:fs/promises')).readFile(path.join(out, 'frames', 'manifest.json'), 'utf8')); } catch { /* first run */ }
 
-for (const orient of ['landscape', 'portrait']) {
+for (const orient of orients) {
   const dir = path.join(src, orient);
   let files = [];
   try { files = (await readdir(dir)).filter((f) => /^f_\d{4}\.png$/.test(f)).sort(); } catch { continue; }

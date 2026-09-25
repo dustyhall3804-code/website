@@ -353,12 +353,24 @@ PORTRAIT_FOCUS = (0.6, 3.2, 1.6)       # machine centre; portrait frames pull to
 
 def camera_at(p, aspect=16 / 9):
     pos, tgt, lens = _camera_at(p)
+    pos = _keep_above_ground(p, pos)
     if aspect < 1.0:
         k = 0.35
         tgt = tuple(a + (b - a) * k for a, b in zip(tgt, PORTRAIT_FOCUS))
         back = 1.3 if pos[2] < 12 else 1.12      # pull back so the whole machine fits a tall frame
         pos = tuple(t + (p_ - t) * back for p_, t in zip(pos, tgt))
+        pos = _keep_above_ground(p, pos)
     return pos, tgt, lens
+
+
+def _keep_above_ground(p, pos):
+    """The spline can overshoot between a high and a low key; never go below
+    the ground or the water."""
+    floor = height(pos[0], pos[1], depth_at(p), spoil_at(p)) + 0.4
+    level, w = water_level(p)
+    if w > 0.001:
+        floor = max(floor, level + 0.35)
+    return (pos[0], pos[1], max(pos[2], floor))
 
 
 def _camera_at(p):

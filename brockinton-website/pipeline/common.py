@@ -357,9 +357,15 @@ def camera_at(p, aspect=16 / 9):
     if aspect < 1.0:
         k = 0.35
         tgt = tuple(a + (b - a) * k for a, b in zip(tgt, PORTRAIT_FOCUS))
-        back = 1.3 if pos[2] < 12 else 1.12      # pull back so the whole machine fits a tall frame
+        # pull back so the whole machine fits a tall frame; the final shot keeps
+        # its bank position so the pond stays in view
+        back = 1.0 if p >= 0.8 else (1.3 if pos[2] < 12 else 1.12)
         pos = tuple(t + (p_ - t) * back for p_, t in zip(pos, tgt))
         pos = _keep_above_ground(p, pos)
+        if p < 0.8 and pos[2] < 12:
+            # stand above the pasture grass instead of shooting through it
+            g = height(pos[0], pos[1], depth_at(p), spoil_at(p))
+            pos = (pos[0], pos[1], max(pos[2], g + 1.7))
     return pos, tgt, lens
 
 

@@ -4,11 +4,11 @@ import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 
 // Progress windows (0..1 through the pinned hero) for each service card.
-// Pond Construction is last and lines up with the pond filling (0.83..0.985).
+// Pond Construction is last and lines up with the pond filling (0.80..0.96).
 const first = 0.075;
 const span = 0.104;
 const windows = services.map((s, i) =>
-  s.id === 'pond-construction' ? [0.815, 1.01] : [first + i * span, first + i * span + span * 0.92],
+  s.id === 'pond-construction' ? [0.8, 1.01] : [first + i * span, first + i * span + span * 0.92],
 );
 ---
 

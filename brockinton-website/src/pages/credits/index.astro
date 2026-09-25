@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+<Layout title="Credits & licenses | Brockinton Land Management" description="Asset credits and licenses for the Brockinton Land Management website.">
+  <Header />
+  <main id="main" class="section">
+    <div class="container prose">
+      <p class="eyebrow">Credits</p>
+      <h1>Credits &amp; licenses</h1>
+      <ul>
+        <li><strong>Sky lighting:</strong> "Rooitou Park" HDRI by Greg Zaal, <a href="https://polyhaven.com/a/rooitou_park">Poly Haven</a>, CC0 (512&nbsp;px version packaged by <a href="https://github.com/pmndrs/assets">@pmndrs/assets</a>).</li>
+        <li><strong>Excavator, terrain, soil textures, grass, trees, fence, hay bales and water:</strong> built for this site in Blender from scratch by the site developer. No third-party models or photos.</li>
+        <li><strong>Typefaces:</strong> Barlow and Barlow Condensed by Jeremy Tribby, SIL Open Font License 1.1.</li>
+        <li><strong>3D engine:</strong> three.js, React Three Fiber, drei and postprocessing (MIT).</li>
+      </ul>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+<style>
+  .section { padding-top: calc(var(--header-h) + 64px); min-height: 70vh; }
+  .prose { max-width: 820px; }
+  h1 { font-size: clamp(2.8rem, 6vw, 4.4rem); margin: 1rem 0 2rem; }
+  ul { display: grid; gap: 1rem; padding-left: 1.2rem; color: var(--bone-100); }
+  a { color: var(--yellow-400); }
+</style>

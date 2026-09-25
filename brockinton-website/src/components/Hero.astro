@@ -1,0 +1,412 @@
+---
+import { business, services } from '../data/site';
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+
+// Progress windows (0..1 through the pinned hero) for each service card.
+// Pond Construction is last and lines up with the pond filling (0.83..0.985).
+const first = 0.075;
+const span = 0.104;
+const windows = services.map((s, i) =>
+  s.id === 'pond-construction' ? [0.815, 1.01] : [first + i * span, first + i * span + span * 0.92],
+);
+---
+
+<section id="top" class="hero" data-hero data-mode="poster" aria-labelledby="hero-title">
+  <div class="sticky">
+    <picture class="poster" data-poster>
+      <source media="(max-aspect-ratio: 1/1)" srcset="/hero/poster-portrait.avif" type="image/avif" />
+      <source media="(max-aspect-ratio: 1/1)" srcset="/hero/poster-portrait.webp" type="image/webp" />
+      <source srcset="/hero/poster-landscape.avif" type="image/avif" />
+      <img src="/hero/poster-landscape.webp" alt="A yellow Brockinton excavator in an open Arkansas pasture at the start of a pond dig, late afternoon"
+        width="1280" height="720" fetchpriority="high" decoding="async" />
+    </picture>
+    <canvas class="frames" data-frames aria-hidden="true"></canvas>
+    <div class="gl" data-gl aria-hidden="true"></div>
+    <div class="shade" aria-hidden="true"></div>
+
+    <div class="intro container" data-intro>
+      <p class="eyebrow">Sherwood, Arkansas &middot; Serving {business.serviceArea}</p>
+      <h1 id="hero-title">Brockinton <span>Land Management</span></h1>
+      <p class="tagline">{business.tagline}</p>
+      <div class="ctas">
+        <a class="btn" href="#estimate">Get a free estimate <Icon name="arrow" /></a>
+        <a class="btn btn--ghost" href={business.phoneHref}><Icon name="phone" /> {business.phone}</a>
+      </div>
+    </div>
+
+    <ol class="cards" data-cards aria-label="Our services, in the order the pond dig shows them">
+      {services.map((s, i) => (
+        <li class="card" data-card data-start={windows[i][0]} data-end={windows[i][1]} id={`story-${s.id}`}>
+          <div class="card-top">
+            <span class="card-icon"><Icon name={s.id} /></span>
+            <span class="card-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}<em>/{String(services.length).padStart(2, '0')}</em></span>
+          </div>
+          <h2 class="card-title">{s.title}</h2>
+          {s.text && <p class="card-text">{s.text}</p>}
+          {s.id === 'pond-construction' && (
+            <a class="btn card-cta" href="#estimate">Plan your pond <Icon name="arrow" /></a>
+          )}
+        </li>
+      ))}
+    </ol>
+
+    <div class="loader" data-loader role="status" aria-live="polite">
+      <Logo compact />
+      <div class="loader-bar"><span data-loader-bar></span></div>
+      <p class="loader-text">Loading the job site&hellip;</p>
+    </div>
+
+    <p class="cue" data-cue aria-hidden="true"><span>Scroll to dig</span></p>
+  </div>
+
+  <div class="sr-only" id="hero-story">
+    <h2>What the scroll animation shows</h2>
+    <p>
+      A yellow tracked excavator works an open pasture in Central Arkansas on a late-summer afternoon, with a treeline and low
+      forested ridges on the horizon, a barbed wire fence and round hay bales. As you scroll, the machine digs a farm pond:
+      the boom lowers, the bucket curls and fills, lifts, the cab swings, and the dirt is dumped onto a growing spoil pile.
+      The pit deepens through dark topsoil, red Arkansas clay, sand and gravel, and grey shale. At the end the finished pond
+      fills with water that reflects the sky and the machine. Along the way each of our services is introduced.
+    </p>
+  </div>
+</section>
+
+<noscript>
+  <style is:inline>
+    [data-hero] { height: auto !important; }
+    [data-hero] > div { position: relative !important; height: auto !important; overflow: visible !important; }
+    [data-hero] picture { height: 100svh !important; position: absolute !important; }
+    [data-hero] [data-intro] { position: relative !important; min-height: 100svh; }
+    [data-hero] [data-cards] { position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding: 48px 24px 72px; background: #120e0b; }
+    [data-hero] [data-card] { position: relative !important; inset: auto !important; width: auto !important; opacity: 1 !important; transform: none !important; visibility: visible !important; }
+    [data-hero] [data-cue], [data-hero] [data-loader] { display: none !important; }
+  </style>
+</noscript>
+
+<script>
+  import { bootHero } from '../hero/boot';
+  bootHero();
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    height: 780vh;
+    background: #1b1814;
+  }
+  .sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
+  .poster,
+  .poster img,
+  .frames,
+  .gl {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .poster img {
+    object-fit: cover;
+  }
+  .frames,
+  .gl {
+    opacity: 0;
+    transition: opacity 0.8s var(--ease);
+  }
+  .hero[data-mode='frames'] .frames,
+  .hero[data-mode='webgl'] .gl {
+    opacity: 1;
+  }
+  .gl :global(canvas) {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(14, 11, 8, 0.72) 0%, rgba(14, 11, 8, 0.25) 42%, rgba(14, 11, 8, 0) 62%),
+      linear-gradient(0deg, rgba(14, 11, 8, 0.55) 0%, rgba(14, 11, 8, 0) 34%),
+      linear-gradient(180deg, rgba(14, 11, 8, 0.55) 0%, rgba(14, 11, 8, 0) 18%);
+  }
+
+  /* intro --------------------------------------------------------------- */
+  .intro {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: clamp(0.8rem, 2.2vh, 1.4rem);
+    padding-top: calc(var(--header-h) + 16px);
+    padding-bottom: clamp(56px, 12vh, 120px);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  }
+  .intro.is-hidden {
+    opacity: 0;
+    transform: translateY(-24px);
+    pointer-events: none;
+  }
+  .intro h1 {
+    font-size: clamp(3rem, min(9.5vw, 12.5vh), 8.6rem);
+    max-width: 11ch;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
+  }
+  .intro h1 span {
+    display: block;
+    color: var(--yellow-400);
+  }
+  .tagline {
+    max-width: 46ch;
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    color: var(--bone-100);
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+
+  /* cards ----------------------------------------------------------------- */
+  .cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .card {
+    position: absolute;
+    left: var(--gutter);
+    bottom: clamp(24px, 7vh, 72px);
+    width: min(470px, 40vw);
+    padding: clamp(22px, 2.4vw, 34px);
+    background: rgba(18, 14, 11, 0.74);
+    backdrop-filter: blur(14px) saturate(1.15);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--yellow-400);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    transform: translateY(28px);
+    visibility: hidden;
+    transition: opacity 0.45s var(--ease), transform 0.55s var(--ease), visibility 0s linear 0.55s;
+  }
+  .card.is-active {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    transition: opacity 0.45s var(--ease), transform 0.55s var(--ease), visibility 0s;
+  }
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .card-icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius);
+    background: rgba(244, 184, 31, 0.12);
+    color: var(--yellow-400);
+  }
+  .card-icon :global(svg) {
+    width: 30px;
+    height: 30px;
+  }
+  .card-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    color: var(--bone-300);
+  }
+  .card-num em {
+    font-style: normal;
+    color: var(--bone-400);
+    opacity: 0.7;
+  }
+  .card-title {
+    font-size: clamp(2.3rem, 3.6vw, 3.4rem);
+  }
+  .card-text {
+    margin-top: 0.8rem;
+    font-size: clamp(1.1rem, 1.35vw, 1.3rem);
+    line-height: 1.45;
+    color: var(--bone-100);
+  }
+  .card-cta {
+    margin-top: 1.3rem;
+  }
+
+  /* loader + cue ---------------------------------------------------------- */
+  .loader {
+    position: absolute;
+    right: var(--gutter);
+    bottom: clamp(24px, 7vh, 72px);
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.8rem 1rem;
+    background: rgba(18, 14, 11, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+  }
+  .hero[data-loading] .loader {
+    opacity: 1;
+  }
+  .loader :global(.mark) {
+    width: 34px;
+    height: 34px;
+  }
+  .loader-bar {
+    width: 140px;
+    height: 4px;
+    background: rgba(246, 240, 230, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .loader-bar span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--yellow-400);
+    transition: width 0.3s var(--ease);
+  }
+  .loader-text {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    color: var(--bone-300);
+  }
+  .cue {
+    position: absolute;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--bone-300);
+    transition: opacity 0.4s;
+  }
+  .cue span::after {
+    content: '';
+    display: block;
+    width: 2px;
+    height: 34px;
+    margin: 10px auto 0;
+    background: linear-gradient(var(--yellow-400), transparent);
+    animation: cue 1.8s var(--ease) infinite;
+    transform-origin: top;
+  }
+  .cue.is-hidden {
+    opacity: 0;
+  }
+  @keyframes cue {
+    0% { transform: scaleY(0); }
+    50% { transform: scaleY(1); }
+    100% { transform: scaleY(1); opacity: 0; }
+  }
+
+  /* phones: card along the bottom, machine framed above it --------------- */
+  @media (max-aspect-ratio: 1/1) {
+    .hero {
+      height: 700vh;
+    }
+    .shade {
+      background:
+        linear-gradient(0deg, rgba(14, 11, 8, 0.8) 0%, rgba(14, 11, 8, 0.35) 38%, rgba(14, 11, 8, 0) 55%),
+        linear-gradient(180deg, rgba(14, 11, 8, 0.6) 0%, rgba(14, 11, 8, 0) 20%);
+    }
+    .intro {
+      justify-content: flex-end;
+      padding-bottom: 88px;
+    }
+    .card {
+      left: 16px;
+      right: 16px;
+      bottom: max(16px, env(safe-area-inset-bottom));
+      width: auto;
+      padding: 20px 20px 22px;
+    }
+    .card-title {
+      font-size: clamp(2rem, 9vw, 2.6rem);
+    }
+    .card-text {
+      font-size: 1.08rem;
+    }
+    .card-icon {
+      width: 44px;
+      height: 44px;
+    }
+    .loader {
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      justify-content: center;
+    }
+  }
+
+  /* reduced motion / no-pin mode: a normal, readable section ---------------- */
+  .hero[data-mode='static'] {
+    height: auto;
+  }
+  .hero[data-mode='static'] .sticky {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+    display: grid;
+  }
+  .hero[data-mode='static'] .poster {
+    position: absolute;
+    height: 100svh;
+  }
+  .hero[data-mode='static'] .intro {
+    position: relative;
+    min-height: 100svh;
+  }
+  .hero[data-mode='static'] .cards {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 48px var(--gutter) 72px;
+    max-width: var(--max);
+    margin-inline: auto;
+    width: 100%;
+    background: var(--soil-900);
+  }
+  .hero[data-mode='static'] .card {
+    position: relative;
+    inset: auto;
+    width: auto;
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    backdrop-filter: none;
+  }
+  .hero[data-mode='static'] .cue {
+    display: none;
+  }
+</style>

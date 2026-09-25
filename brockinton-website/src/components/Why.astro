@@ -1,0 +1,53 @@
+---
+import { business } from '../data/site';
+import Icon from './Icon.astro';
+const values = [
+  { icon: 'handshake', title: 'Service', text: 'Owner-run, so you talk directly with the person responsible for your job.' },
+  { icon: 'shield', title: 'Safety', text: 'Safety should always be the top priority for everyone involved.' },
+  { icon: 'check', title: 'Quality', text: 'Quality work on every job, big or small.' },
+];
+---
+<section id="why" class="section why grain" aria-labelledby="why-title">
+  <div class="container layout">
+    <div class="copy">
+      <p class="eyebrow">Why Brockinton</p>
+      <h2 id="why-title">Owner-run. <span>Locally rooted.</span></h2>
+      <p class="lead">
+        {business.shortName} is run by {business.owner} out of {business.city}, Arkansas, serving {business.serviceArea}.
+        When you call, you talk to the owner.
+      </p>
+      <div class="free">
+        <strong>Free estimates</strong>
+        <span>Tell us about the job and we'll get you a free estimate.</span>
+      </div>
+    </div>
+    <ul class="values">
+      {values.map((v) => (
+        <li>
+          <span class="vi"><Icon name={v.icon} /></span>
+          <div>
+            <h3>{v.title}</h3>
+            <p>{v.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+<style>
+  .why { background: linear-gradient(180deg, var(--soil-800), var(--soil-900)); overflow: hidden; }
+  .layout { position: relative; z-index: 1; display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(40px, 7vw, 110px); align-items: center; }
+  h2 { font-size: clamp(2.8rem, 6vw, 4.8rem); margin: 1rem 0 1.4rem; }
+  h2 span { color: var(--yellow-400); display: block; }
+  .lead { font-size: 1.2rem; color: var(--bone-100); max-width: 52ch; }
+  .free { margin-top: 2rem; display: grid; gap: 0.2rem; padding: 18px 22px; border-left: 4px solid var(--yellow-400); background: rgba(244, 184, 31, 0.07); border-radius: 0 var(--radius) var(--radius) 0; }
+  .free strong { font-family: var(--font-display); font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--bone-50); }
+  .free span { color: var(--bone-300); }
+  .values { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .values li { display: grid; grid-template-columns: auto 1fr; gap: 18px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: rgba(18, 14, 11, 0.5); }
+  .vi { display: grid; place-items: center; width: 54px; height: 54px; border-radius: var(--radius); background: var(--yellow-400); color: #1a1206; }
+  .vi :global(svg) { width: 28px; height: 28px; }
+  h3 { font-size: 2rem; margin-bottom: 0.3rem; }
+  .values p { color: var(--bone-300); }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+</style>

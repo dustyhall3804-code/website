@@ -1,0 +1,83 @@
+---
+import '../styles/global.css';
+import { business, services } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Brockinton Land Management | Land Clearing & Pond Construction in Central Arkansas',
+  description = `Owner-run land clearing, pond construction, tree removal, mulching, brush hogging, trenching, debris removal and demolition in Sherwood and Central Arkansas. Free estimates. Call ${business.phone}.`,
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://brockintonlandmanagement.com');
+const canonical = new URL(Astro.url.pathname, site).href;
+const ogImage = new URL('/og-image.jpg', site).href;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'HomeAndConstructionBusiness',
+  '@id': new URL('/#business', site).href,
+  name: business.name,
+  url: site.href,
+  telephone: '+1-501-992-8818',
+  image: ogImage,
+  logo: new URL('/favicon.svg', site).href,
+  founder: { '@type': 'Person', name: business.owner },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: business.city,
+    addressRegion: business.region,
+    addressCountry: 'US',
+  },
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Central Arkansas' },
+    { '@type': 'City', name: 'Sherwood, AR' },
+  ],
+  sameAs: [business.facebook, business.instagram],
+  makesOffer: services.map((s) => ({
+    '@type': 'Offer',
+    itemOffered: { '@type': 'Service', name: s.title },
+  })),
+  slogan: business.tagline,
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#120e0b" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={business.shortName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A yellow Brockinton excavator digging a farm pond in an Arkansas pasture" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preload" href="/hero/poster-landscape.avif" as="image" type="image/avif" media="(min-aspect-ratio: 1/1)" fetchpriority="high" />
+    <link rel="preload" href="/hero/poster-portrait.avif" as="image" type="image/avif" media="(max-aspect-ratio: 1/1)" fetchpriority="high" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot />
+  </body>
+</html>

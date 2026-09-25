@@ -1,0 +1,46 @@
+---
+import { business, partner } from '../data/site';
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container top">
+    <div class="brand">
+      <Logo />
+      <p>{business.tagline}</p>
+    </div>
+    <div class="col">
+      <h2>Contact</h2>
+      <a class="phone" href={business.phoneHref}>{business.phone}</a>
+      <p>{business.city}, AR &middot; Serving {business.serviceArea}</p>
+      <p>Owner: {business.owner}</p>
+    </div>
+    <div class="col">
+      <h2>Follow</h2>
+      <div class="social">
+        <a href={business.facebook} target="_blank" rel="noopener"><Icon name="facebook" label="Facebook" /></a>
+        <a href={business.instagram} target="_blank" rel="noopener"><Icon name="instagram" label="Instagram" /></a>
+      </div>
+      <p>Storm shelters through <a href={partner.url} target="_blank" rel="noopener">{partner.name}</a></p>
+    </div>
+  </div>
+  <div class="container bottom">
+    <p>&copy; {year} {business.name}</p>
+    <a href="/credits/">Credits &amp; licenses</a>
+  </div>
+</footer>
+<style>
+  .footer { background: #0d0a08; border-top: 1px solid var(--line); padding: 64px 0 28px; }
+  .top { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; }
+  .brand p { margin-top: 1rem; max-width: 46ch; color: var(--bone-300); }
+  h2 { font-size: 1.1rem; letter-spacing: 0.2em; color: var(--yellow-400); margin-bottom: 1rem; }
+  .col { display: grid; align-content: start; gap: 0.5rem; color: var(--bone-300); }
+  .phone { font-family: var(--font-display); font-weight: 800; font-size: 2rem; color: var(--bone-50); text-decoration: none; }
+  .social { display: flex; gap: 10px; }
+  .social a { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid var(--line-strong); border-radius: var(--radius); color: var(--bone-50); transition: background-color 0.2s, color 0.2s; }
+  .social a:hover { background: var(--yellow-400); color: #1a1206; }
+  .social :global(svg) { width: 22px; height: 22px; }
+  .bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--bone-400); font-size: 0.95rem; }
+  @media (max-width: 800px) { .top { grid-template-columns: 1fr; } }
+</style>

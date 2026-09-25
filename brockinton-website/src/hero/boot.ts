@@ -125,7 +125,7 @@ function wireCards(hero: HTMLElement) {
       next?.classList.add('is-active');
       active = next;
     }
-    intro.classList.toggle('is-hidden', p > 0.035);
+    intro.classList.toggle('is-hidden', p > 0.03);
     cue.classList.toggle('is-hidden', p > 0.01);
   };
   import('./state').then(({ onProgress }) => onProgress(update));

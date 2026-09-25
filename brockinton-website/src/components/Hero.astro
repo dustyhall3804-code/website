@@ -148,9 +148,10 @@ const windows = services.map((s, i) =>
     gap: clamp(0.8rem, 2.2vh, 1.4rem);
     padding-top: calc(var(--header-h) + 16px);
     padding-bottom: clamp(56px, 12vh, 120px);
-    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+    transition: opacity 0.35s var(--ease), transform 0.5s var(--ease);
   }
   .intro.is-hidden {
+    transition: opacity 0.2s ease-out, transform 0.3s ease-out;
     opacity: 0;
     transform: translateY(-24px);
     pointer-events: none;
@@ -198,13 +199,15 @@ const windows = services.map((s, i) =>
     opacity: 0;
     transform: translateY(28px);
     visibility: hidden;
-    transition: opacity 0.45s var(--ease), transform 0.55s var(--ease), visibility 0s linear 0.55s;
+    /* outgoing card clears quickly... */
+    transition: opacity 0.2s ease-out, transform 0.3s ease-out, visibility 0s linear 0.3s;
   }
   .card.is-active {
     opacity: 1;
     transform: none;
     visibility: visible;
-    transition: opacity 0.45s var(--ease), transform 0.55s var(--ease), visibility 0s;
+    /* ...and the next one waits for it, so text never overlaps */
+    transition: opacity 0.45s var(--ease) 0.22s, transform 0.55s var(--ease) 0.22s, visibility 0s;
   }
   .card-top {
     display: flex;
